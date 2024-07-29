@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   p.textContent = "Default Grid Size 16 x 16";
   const button = document.createElement("button");
   button.setAttribute("id", "resizeGrid");
-  button.textContent = "Resize Grid";
+  button.textContent = "Resize/Reset Grid";
   button.addEventListener("click", resizeGrid);
 
   body.insertBefore(header, container);
@@ -28,9 +28,21 @@ document.addEventListener("DOMContentLoaded", () => {
       grid.setAttribute("id", "grid");
       grid.style.width = `${gridSize}px`;
       grid.style.height = `${gridSize}px`;
+      grid.style.opacity = 1;
+      grid.count = 1;
 
       grid.addEventListener("mouseover", () => {
-        grid.style.backgroundColor = "rgb(255, 0, 0, 1)";
+        console.log(grid.count);
+        const currentOpacity = parseFloat(grid.style.opacity);
+        if (grid.count >= 10) {
+          grid.style.backgroundColor = "black";
+          grid.style.opacity = 1;
+        } else {
+          grid.style.backgroundColor = randomRGB();
+          grid.style.opacity = currentOpacity - 0.1;
+          grid.count= grid.count + 1;
+        }
+
       });
       container.appendChild(grid);
     }
@@ -43,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Size not number");
         container.innerHTML = "";
         grid(16);
-      } else if (size > 20){
+      } else if (size > 100){
         console.log("Size more than 100, Grid size set to 100");
         container.innerHTML = "";
         grid(100);
@@ -52,6 +64,13 @@ document.addEventListener("DOMContentLoaded", () => {
         container.innerHTML = "";
         grid(size);
       }
+  }
+
+  function randomRGB() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
   }
 
   grid(16);
