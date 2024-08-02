@@ -149,7 +149,7 @@ input[type="password"]:invalid {
   margin-bottom: 12px;
 }
 
-p a {
+.formSubmit a {
     color: #596d48;
     font-size: medium;
     text-decoration: none;
